@@ -1,0 +1,12 @@
+{
+    "name": "Emotes for Messenger",
+    "version": "1.0",
+    "manifest_version": 2,
+    "description": "Addon for twitch emotes on messenger",
+    "content_scripts": [
+        {
+            "matches": ["*://*messenger.com/*"],
+            "js": ["main.js"]
+        }
+    ]
+}

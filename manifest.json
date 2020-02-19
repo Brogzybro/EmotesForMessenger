@@ -6,7 +6,8 @@
     "content_scripts": [
       {
         "matches": ["*://*.messenger.com/*"],
-        "js": ["main.js"]
+        "js": ["jquery-3.4.1.min.js", "main.js"],
+        "run_at": "document_end"
       }
     ],
     "permissions": ["storage"]

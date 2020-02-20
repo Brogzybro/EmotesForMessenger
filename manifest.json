@@ -10,5 +10,10 @@
         "run_at": "document_end"
       }
     ],
-    "permissions": ["storage"]
+    "background": {
+      "scripts" : ["jquery-3.4.1.min.js", "background.js"],
+      "persistent" : true
+    },
+    "permissions": ["storage", "tabs", "webNavigation"],
+    "web_accessible_resources": ["imagelinks.csv"]
   }

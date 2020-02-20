@@ -1,4 +1,4 @@
-console.log("bgScript");
+
 window.b = window.browser
 var csvFile = null;
 var emoteNames = [];
@@ -7,8 +7,6 @@ var links = [];
 if(window.b == null){
     window.b = window.chrome
 }
-console.log(chrome)
-console.log(window.b)
 window.b.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     window.b.tabs.query({active: true, currentWindow: true,}, function (tabs){
         var activeTab = tabs[0];
@@ -19,7 +17,6 @@ window.b.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 });
 
 var csvFile = window.b.runtime.getURL("imagelinks.csv");
-console.log(csvFile);
 $(document).ready(function(){
     $.ajax({
         type: "GET",
@@ -39,18 +36,9 @@ function csvToTwoArrays(data){
         links.push(splitted[1]);
     }
 
-    /* window.b.tabs.query({active: true, currentWindow: true,}, function (tabs){
-        var activeTab = tabs[0];
-        if(activeTab != null){
-            window.b.tabs.sendMessage(activeTab.id, {"emotesNames": emoteNames, "links": links});
-            console.log("messge Sent");
-        }
-    }); */
-
 }
 
 window.b.runtime.onMessage.addListener( function (request, sender, sendResponse){
-    console.log(request);
     if (request.msg == "ready"){
         sendResponse({emotesNames: emoteNames, links: links});
     }

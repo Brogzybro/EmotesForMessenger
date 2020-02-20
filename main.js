@@ -15,17 +15,11 @@ var emoteNames = [];
 const observer = new MutationObserver(function(mutations){
     mutations.forEach(function (mutation){
         if(mutation.addedNodes.length){
-            console.log("Observed")
-            console.log(mutation.addedNodes[0]);
             var newMessage = $(mutation.addedNodes[0].firstChild).find('._58nk').get(0);
             js_1lastChild = window.js_1.lastElementChild.firstChild.firstChild;
-            console.log(observer);
             observer.observe(js_1lastChild, {
                 childList: true
             })
-            console.log(window.js_1);
-            console.log(js_1lastChild);
-            console.log(newMessage);
             if(newMessage != null){
                 var indexOfEmote = checkIfMssgIsEmote(newMessage);
                 if(indexOfEmote != -1){
@@ -68,14 +62,12 @@ function setTextElements(){
     }
     if (textElements.length == 0 || js_1 == null){
         console.log("waiting");
-        console.log(window.js_1);
         setTimeout(setTextElements, 1000);
     }else{
         
         $('._51-3 _1ht1 _6zk9').on('click', function(){
             setTimeout(initialChanges(), 1000);
         });
-        console.log(js_1);
         js_1lastChild = window.js_1.lastElementChild.firstChild.firstChild;
         console.log(js_1lastChild);
         observer.observe(window.js_1, {
@@ -104,15 +96,12 @@ function checkIfMssgIsEmote(element){
             return result;
         }
     }
-    console.log(text);
-    console.log(result);
     return result;
 }
 
 function replaceToEmote(element, indexOfLink){ // TODO: MAKE GENERIC
     console.log("making emote");
     var Img = document.createElement("img");
-    console.log(links[indexOfLink]);
     Img.src = links[indexOfLink];
     Img.alt = emoteNames[indexOfLink];
     $(element).closest('._3058').css("background-color", "rgb(0, 153, 255, 0)");
@@ -120,7 +109,6 @@ function replaceToEmote(element, indexOfLink){ // TODO: MAKE GENERIC
 }
 window.b.runtime.onMessage.addListener(
     function(request, sender, sendResponse){
-        console.log(request);
         if(request.message === "tabUpdated"){
             setTextElements();
         }if(request.message === "emoteNames"){
@@ -133,8 +121,6 @@ window.b.runtime.onMessage.addListener(
 window.b.runtime.sendMessage({msg: "ready"}, function(response){
     emoteNames = response.emotesNames;
     links = response.links;
-    console.log(links);
-    console.log(emoteNames);
 });
 
 function initialChanges(){

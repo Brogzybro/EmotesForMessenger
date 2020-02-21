@@ -11,6 +11,7 @@ var js_1lastChild = null;
 
 var links = [];
 var emoteNames = [];
+var counter = 0;
 
 const observer = new MutationObserver(function(mutations){
     mutations.forEach(function (mutation){
@@ -37,12 +38,6 @@ window.document.addEventListener('load', initialChanges());
 
 function replaceToKEKW(){
     for(var i = 0 in textElements){
-        /* if(textElements[i].innerHTML == "KEKW"){
-            var newIMG = kekwImg.nodeValue;
-            $(textElements[i]).closest('._3058').css("background-color", "rgb(0, 153, 255, 0)");
-            $(textElements[i]).replaceWith(newIMG);
-            replaceToKEKW();
-        } */
         var indexOfEmote = checkIfMssgIsEmote(textElements[i])
         if(indexOfEmote != -1){
             replaceToEmote(textElements[i], indexOfEmote);
@@ -51,17 +46,20 @@ function replaceToKEKW(){
 }
 
 function setTextElements(){
+    if(counter > 20){
+        window.location.reload();
+    }
     window.textElements = document.getElementsByClassName('_3oh- _58nk');
     var listOfI = [1,3,"b",9];
     for(var i = 0; i < listOfI.length; i++){
         window.js_1 = $("#js_"+listOfI[i]+"").get(0);
-        console.log(window.js_1);
         if (window.js_1 != null){
             break;
         }
     }
     if (textElements.length == 0 || js_1 == null){
         console.log("waiting");
+        counter++;
         setTimeout(setTextElements, 1000);
     }else{
         
@@ -69,7 +67,6 @@ function setTextElements(){
             setTimeout(initialChanges(), 1000);
         });
         js_1lastChild = window.js_1.lastElementChild.firstChild.firstChild;
-        console.log(js_1lastChild);
         observer.observe(window.js_1, {
             childList: true
         });

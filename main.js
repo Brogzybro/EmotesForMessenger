@@ -36,7 +36,7 @@ const observer = new MutationObserver(function(mutations){
 window.document.addEventListener('load', initialChanges());
 
 
-function replaceToKEKW(){
+function replaceInitialToEmotes(){
     for(var i = 0 in textElements){
         var indexOfEmote = checkIfMssgIsEmote(textElements[i])
         if(indexOfEmote != -1){
@@ -63,10 +63,6 @@ function setTextElements(){
         counter++;
         setTimeout(setTextElements, 1000);
     }else{
-        
-        $('._51-3 _1ht1 _6zk9').on('click', function(){
-            setTimeout(initialChanges(), 1000);
-        });
         js_1lastChild = window.js_1.lastElementChild.firstChild.firstChild;
         observer.observe(window.js_1, {
             childList: true
@@ -74,11 +70,11 @@ function setTextElements(){
         observer.observe(js_1lastChild, {
             childList: true
         })
-        replaceToKEKW();
+        replaceInitialToEmotes();
     }
 }
 
-function checkIfMssgIsEmote(element){
+function checkIfMssgIsEmote(element){ // TODO: Check if message contains emote, and if it's only emotes 
     var text = element.innerHTML;
     if(text == null){
         return -1;
@@ -97,11 +93,12 @@ function checkIfMssgIsEmote(element){
     return result;
 }
 
-function replaceToEmote(element, indexOfLink){ // TODO: MAKE GENERIC
+function replaceToEmote(element, indexOfLink){ // TODO: Try to just make img as a child of element's father.(don't replace the element, it should be deleted later) Does multiple imges display as wanted?
     console.log("making emote");
     var Img = document.createElement("img");
     Img.src = links[indexOfLink];
     Img.alt = emoteNames[indexOfLink];
+    Img.title = emoteNames[indexOfLink];
     $(element).closest('._3058').css("background-color", "rgb(0, 153, 255, 0)");
     $(element).replaceWith(Img);
 }

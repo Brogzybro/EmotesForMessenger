@@ -48,6 +48,7 @@ function replaceToKEKW(){
 function setTextElements(){
     if(counter > 20){
         window.location.reload();
+        return;
     }
     window.textElements = document.getElementsByClassName('_3oh- _58nk');
     var listOfI = [1,3,"b",9];

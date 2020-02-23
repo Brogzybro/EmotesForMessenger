@@ -7,6 +7,8 @@ var links = [];
 if(window.b == null){
     window.b = window.chrome
 }
+
+//Sends msg to main.js when the url changes
 window.b.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     window.b.tabs.query({active: true, currentWindow: true,}, function (tabs){
         var activeTab = tabs[0];
@@ -17,7 +19,7 @@ window.b.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 });
 
 var csvFile = window.b.runtime.getURL("imagelinks.csv");
-$(document).ready(function(){
+$(document).ready(function(){ // gets the csv file
     $.ajax({
         type: "GET",
         url: csvFile,
@@ -38,6 +40,7 @@ function csvToTwoArrays(data){
 
 }
 
+//Listens for when main.js is "ready", sends lists from csv file.
 window.b.runtime.onMessage.addListener( function (request, sender, sendResponse){
     if (request.msg == "ready"){
         sendResponse({emotesNames: emoteNames, links: links});

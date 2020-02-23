@@ -13,7 +13,8 @@ var links = [];
 var emoteNames = [];
 var counter = 0;
 
-const observer = new MutationObserver(function(mutations){
+//listens to changes on messenger
+const observer = new MutationObserver(function(mutations){ 
     mutations.forEach(function (mutation){
         if(mutation.addedNodes.length){
             var newMessage = $(mutation.addedNodes[0].firstChild).find('._58nk').get(0);
@@ -33,9 +34,10 @@ const observer = new MutationObserver(function(mutations){
 
 
 
-window.document.addEventListener('load', initialChanges());
+window.document.addEventListener('load', setTextElements());
 
 
+//Goes through the elements on screen from reload, and replaces elements to emotes
 function replaceInitialToEmotes(){
     for(var i = 0 in textElements){
         var indexOfEmote = checkIfMssgIsEmote(textElements[i])
@@ -45,6 +47,7 @@ function replaceInitialToEmotes(){
     }
 }
 
+//Gets the initial elements, puts observe two elements
 function setTextElements(){
     if(counter > 20){
         window.location.reload();
@@ -74,6 +77,7 @@ function setTextElements(){
     }
 }
 
+//Checks if element is an emote
 function checkIfMssgIsEmote(element){ // TODO: Check if message contains emote, and if it's only emotes 
     var text = element.innerHTML;
     if(text == null){
@@ -93,6 +97,7 @@ function checkIfMssgIsEmote(element){ // TODO: Check if message contains emote, 
     return result;
 }
 
+//Replaces element with a new <img src=blabla
 function replaceToEmote(element, indexOfLink){ // TODO: Try to just make img as a child of element's father.(don't replace the element, it should be deleted later) Does multiple imges display as wanted?
     console.log("making emote");
     var Img = document.createElement("img");
@@ -102,6 +107,8 @@ function replaceToEmote(element, indexOfLink){ // TODO: Try to just make img as 
     $(element).closest('._3058').css("background-color", "rgb(0, 153, 255, 0)");
     $(element).replaceWith(Img);
 }
+
+//Listens to messages from background.js
 window.b.runtime.onMessage.addListener(
     function(request, sender, sendResponse){
         if(request.message === "tabUpdated"){
@@ -113,12 +120,9 @@ window.b.runtime.onMessage.addListener(
     }
 )
 
+//Sends initial msg to background.js to recieve lists made from imagelinks.csv
 window.b.runtime.sendMessage({msg: "ready"}, function(response){
     emoteNames = response.emotesNames;
     links = response.links;
 });
 
-function initialChanges(){
-    setTextElements();
-    
-}

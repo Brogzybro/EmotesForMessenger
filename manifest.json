@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "Emotes For Messenger",
     "description": "Twitch emotes for messenger",
-    "version": "0.1",
+    "version": "1.0.1",
     "icons": {
       "16": "Icons/icon16.png",
       "48": "Icons/icon48.png",

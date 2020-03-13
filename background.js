@@ -12,7 +12,7 @@ if(window.b == null){
 window.b.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     window.b.tabs.query({active: true, currentWindow: true,}, function (tabs){
         var activeTab = tabs[0];
-        if(activeTab != null){
+        if(activeTab != null ){
             window.b.tabs.sendMessage(activeTab.id, {"message": "tabUpdated"});
         }
     });

@@ -63,7 +63,7 @@ function checkURL(){
     }
     else if(url.includes('facebook.com')){
         console.log("facebook");
-        addFBListeners();
+        // to be made..
     }
 }
 
@@ -148,35 +148,3 @@ window.b.runtime.sendMessage({msg: "ready"}, function(response){
     emoteNames = response.emotesNames;
     links = response.links;
 });
-
-
-
-// FACEBOOK SPECIFIC BELOW
-
-
-/*
-function addFBListeners(){
-    listOfChats = $('._59v1')[0];
-    console.log(listOfChats);
-    if(listOfChats == null){
-        setTimeout(addFBListeners, 1000);
-    }
-    observerFB.observe(listOfChats, {
-        childList: true
-    });
-    let chats = document.getElementsByClassName('._5qi9 _5qib');
-    for(var i = 0 in chats){
-        console.log(chats[i]);
-        let listOfMessages = $(chats[i]).closest('._4po9').firstChild.firstChild;
-        chatObserver.observe(listOfMessages, {
-            childList:true
-        })
-        checkMessagesFB(listOfMessages);
-    }
-}
-
-function checkMessagesFB(listOfMessages){
-    let messages = listOfMessages.children
-    console.log(messages);
-}*/
-

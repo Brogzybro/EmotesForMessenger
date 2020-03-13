@@ -9,6 +9,9 @@ window.js_1 = null;
 
 var js_1lastChild = null;
 
+//facebook vars
+var listOfChats = null;
+
 var links = [];
 var emoteNames = [];
 var counter = 0;
@@ -32,9 +35,38 @@ const observer = new MutationObserver(function(mutations){
     })
 })
 
+const observerFB = new MutationObserver(function(mutations){ //for facebook
+    mutations.forEach(function (mutation){
+
+    });
+});
+
+const chatObserver = new MutationObserver(function(mutations){ //for facebook
+    mutations.forEach(function (mutation){
+        
+    });
+});
 
 
-window.document.addEventListener('load', setTextElements());
+
+window.document.addEventListener('load', checkURL());
+
+
+function checkURL(){
+    let url = window.location.href;
+    if(url.includes('messenger.com/t/')){
+        console.log("messenger");
+        setTextElements();
+    }
+    else if(url.includes('messages/t/')){
+        setTextElements();
+    }
+    else if(url.includes('facebook.com')){
+        console.log("facebook");
+        addFBListeners();
+    }
+}
+
 
 
 //Goes through the elements on screen from reload, and replaces elements to emotes
@@ -49,18 +81,8 @@ function replaceInitialToEmotes(){
 
 //Gets the initial elements, puts observe two elements
 function setTextElements(){
-    if(counter > 20){
-        window.location.reload();
-        return;
-    }
+    window.js_1 = $('.__i_').children().eq(2)[0];
     window.textElements = document.getElementsByClassName('_3oh- _58nk');
-    var listOfI = [1,3,"b",9];
-    for(var i = 0; i < listOfI.length; i++){
-        window.js_1 = $("#js_"+listOfI[i]+"").get(0);
-        if (window.js_1 != null){
-            break;
-        }
-    }
     if (textElements.length == 0 || js_1 == null){
         console.log("waiting");
         counter++;
@@ -112,7 +134,8 @@ function replaceToEmote(element, indexOfLink){ // TODO: Try to just make img as 
 window.b.runtime.onMessage.addListener(
     function(request, sender, sendResponse){
         if(request.message === "tabUpdated"){
-            setTextElements();
+            console.log("tabUpdated");
+            checkURL();
         }if(request.message === "emoteNames"){
 
         }
@@ -125,4 +148,35 @@ window.b.runtime.sendMessage({msg: "ready"}, function(response){
     emoteNames = response.emotesNames;
     links = response.links;
 });
+
+
+
+// FACEBOOK SPECIFIC BELOW
+
+
+/*
+function addFBListeners(){
+    listOfChats = $('._59v1')[0];
+    console.log(listOfChats);
+    if(listOfChats == null){
+        setTimeout(addFBListeners, 1000);
+    }
+    observerFB.observe(listOfChats, {
+        childList: true
+    });
+    let chats = document.getElementsByClassName('._5qi9 _5qib');
+    for(var i = 0 in chats){
+        console.log(chats[i]);
+        let listOfMessages = $(chats[i]).closest('._4po9').firstChild.firstChild;
+        chatObserver.observe(listOfMessages, {
+            childList:true
+        })
+        checkMessagesFB(listOfMessages);
+    }
+}
+
+function checkMessagesFB(listOfMessages){
+    let messages = listOfMessages.children
+    console.log(messages);
+}*/
 

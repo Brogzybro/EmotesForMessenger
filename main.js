@@ -126,7 +126,7 @@ function replaceToEmote(element, indexOfLink){ // TODO: Try to just make img as 
     Img.src = links[indexOfLink];
     Img.alt = emoteNames[indexOfLink];
     Img.title = emoteNames[indexOfLink];
-    $(element).closest('._3058').css("background-color", "rgb(0, 153, 255, 0)");
+    $(element).closest('._3058').css({"background-color": "rgb(0, 153, 255, 0)", "background-image": "none"});
     $(element).replaceWith(Img);
 }
 

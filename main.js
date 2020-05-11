@@ -1,4 +1,4 @@
-console.log("Script is running :),,");
+console.log("Script is running :)");
 
 window.b = window.browser
 if(window.b == null){
@@ -11,6 +11,8 @@ var js_1lastChild = null;
 
 //facebook vars
 var listOfChats = null;
+
+
 
 var links = [];
 var emoteNames = [];
@@ -57,6 +59,7 @@ function checkURL(){
     if(url.includes('messenger.com/t/')){
         console.log("messenger");
         setTextElements();
+        popupListener();
     }
     else if(url.includes('messages/t/')){
         setTextElements();
@@ -136,6 +139,7 @@ window.b.runtime.onMessage.addListener(
         if(request.message === "tabUpdated"){
             console.log("tabUpdated");
             checkURL();
+            
         }if(request.message === "emoteNames"){
 
         }
@@ -148,3 +152,19 @@ window.b.runtime.sendMessage({msg: "ready"}, function(response){
     emoteNames = response.emotesNames;
     links = response.links;
 });
+
+popupListener();
+
+
+function popupListener() {
+    $("._7odb").click(function () {
+        var popup = document.getElementsByClassName("popupBg");
+        if (popup.length === 0) {
+            createPopUp(links, emoteNames);
+        }
+        else {
+            popup[0].remove();
+        }
+    });
+}
+

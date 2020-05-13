@@ -6,14 +6,17 @@ function createPopUp(links, emoteNames){
     bgDiv.classList.add("popupBg");
     $(bgDiv).css({"position": "fixed", "top": 0, "height":"100%", "width":"100%"});
 
+    var offsetSimleyButton = $("._7odb").offset().left;
+    var right = document.body.clientWidth - offsetSimleyButton - 32.625;
+
     var mainDiv = document.createElement("div");
     mainDiv.classList.add("popUp");
     $(mainDiv).css({"position": "fixed",
-        "top": "169px", 
+        "bottom": "454px", 
         "height": "136px",
         "background-color": "#fdfdfd",
         "width": "278px",
-        "right": "28.5%",
+        "right": right+"px",
         "border-radius": "6px",
         "box-shadow": "0 0 10px -2px #4e4e4e",
         "overflow": "auto"});
@@ -46,7 +49,6 @@ function createPopUp(links, emoteNames){
 
     $(".popupBg").click(function(){
         this.remove();
-    
     });
 
     $(".table-img").click(function(e){

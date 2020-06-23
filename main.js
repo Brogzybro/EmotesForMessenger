@@ -29,7 +29,7 @@ const observer = new MutationObserver(function(mutations){
             })
             if(newMessage != null){
                 var indexOfEmote = checkIfMssgIsEmote(newMessage);
-                if(indexOfEmote != -1){
+                if(indexOfEmote != null){
                     replaceToEmote(newMessage, indexOfEmote);
                 }
             }
@@ -63,6 +63,7 @@ function checkURL(){
     }
     else if(url.includes('messages/t/')){
         setTextElements();
+        popupListener();
     }
     else if(url.includes('facebook.com')){
         console.log("facebook");
@@ -75,9 +76,9 @@ function checkURL(){
 //Goes through the elements on screen from reload, and replaces elements to emotes
 function replaceInitialToEmotes(){
     for(var i = 0 in textElements){
-        var indexOfEmote = checkIfMssgIsEmote(textElements[i])
-        if(indexOfEmote != -1){
-            replaceToEmote(textElements[i], indexOfEmote);
+        var indexOfEmotes = checkIfMssgIsEmote(textElements[i])
+        if(indexOfEmotes != null){
+            replaceToEmote(textElements[i], indexOfEmotes);
         }
     }
 }
@@ -105,32 +106,45 @@ function setTextElements(){
 //Checks if element is an emote
 function checkIfMssgIsEmote(element){ // TODO: Check if message contains emote, and if it's only emotes 
     var text = element.innerHTML;
+    var indexOfEmotes = [];
     if(text == null){
-        return -1;
+        return null;
     }
     var splitted = text.split(" ");
-    var result = -1;
-    if(splitted.length >= 2){
-        return result;
-    }
-    for (var i in emoteNames){
-        if(text == emoteNames[i]){
-            result = i
-            return result;
+    var containsEmote = -1;
+    for (var j in splitted){
+        var str = splitted[j];
+        for (var i in emoteNames){
+            if(str == emoteNames[i]){
+                indexOfEmotes.push(i);
+                containsEmote = 1;
+            }
         }
     }
-    return result;
+    
+    if(containsEmote == -1){
+        return null
+    }else{
+        console.log(indexOfEmotes);
+        return indexOfEmotes;
+    }     
 }
 
 //Replaces element with a new <img src=blabla
-function replaceToEmote(element, indexOfLink){ // TODO: Try to just make img as a child of element's father.(don't replace the element, it should be deleted later) Does multiple imges display as wanted?
+function replaceToEmote(element, indexOfLinks){ // TODO: Try to just make img as a child of element's father.(don't replace the element, it should be deleted later) Does multiple imges display as wanted?
     console.log("making emote");
-    var Img = document.createElement("img");
-    Img.src = links[indexOfLink];
-    Img.alt = emoteNames[indexOfLink];
-    Img.title = emoteNames[indexOfLink];
-    $(element).closest('._3058').css({"background-color": "rgb(0, 153, 255, 0)", "background-image": "none"});
-    $(element).replaceWith(Img);
+    for (var i in indexOfLinks){
+        var indexOfLink = indexOfLinks[i];
+        var Img = document.createElement("img");
+        Img.src = links[indexOfLink];
+        Img.alt = emoteNames[indexOfLink];
+        Img.title = emoteNames[indexOfLink];
+        console.log(Img);
+        $(element).closest('._3058').css({"background-color": "rgb(0, 153, 255, 0)", "background-image": "none"});
+        element.parentElement.appendChild(Img);
+    }
+    element.remove();
+    
 }
 
 //Listens to messages from background.js
@@ -167,4 +181,3 @@ function popupListener() {
         }
     });
 }
-

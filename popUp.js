@@ -38,10 +38,10 @@ function createPopUp(links, emoteNames){
         Img.title = emoteNames[i];
         Img.height = 32;
         Img.width = 32;
+        Img.style.cursor = 'pointer';
 
         imageDiv.appendChild(Img);
         td.appendChild(imageDiv);
-        
     }
     mainDiv.appendChild(table);
     bgDiv.appendChild(mainDiv);
@@ -49,15 +49,28 @@ function createPopUp(links, emoteNames){
 
     $(".popupBg").click(function(){
         this.remove();
+        console.log(document.getElementsByClassName('_5v-0 _53ik')[0]);
+        //document.getElementsByClassName('_5v-0 _53ik')[0].parentElement.parentElement.remove();
+        $(document.elementFromPoint(e.clientX, e.clientY)).trigger("click");
     });
 
     $(".table-img").click(function(e){
         console.log("Emote clicked");
         e.stopPropagation();
-        // TODO: Copy to Clipboard
+        var emoteName = this.childNodes[0].title + " ";
+        copyText(emoteName);
     });
 }
 
+
+function copyText(text){
+    const tempElem = document.createElement('textarea');
+    tempElem.value = text;
+    document.body.appendChild(tempElem);
+    tempElem.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempElem);
+}
 
 
 
